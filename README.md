@@ -41,7 +41,7 @@ CPT = COT * 2/3 * ρ * r / LWC
 
 ## Usage
 　使用方法は以下の通りである。
-1. url = [https://clobeontheweb.streamlit.app]
+1. https://clobeontheweb.streamlit.app
 
 ## Notes
 　使用にあたり注意すべき点がある。
