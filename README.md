@@ -57,6 +57,7 @@ Cloud propaty data that is used in the development of this tool is supplied by t
 本ツールの開発にて使用した雲特性データは、宇宙航空研究開発機構（JAXA）の分野横断型プロダクト提供サービス（P-Tree）より提供を受けた。このサービスについての参考文献を以下に挙げる。
 
 (Cloud Flag Algorithm)
+
 Ishida, H., and T. Y. Nakajima, 2009: Development of an unbiased cloud detection algorithm for a spaceborne multispectral imager, J. Geophys. Res., 114, D07206, doi:10.1029/2008JD010710.
 
 Ishida, H., T. Y. Nakajima, T. Yokota, N. Kikuchi, and H. Watanabe, 2011: Investigation of GOSAT TANSO-CAI cloud screening ability through an inter-satellite comparison, J. Appl. Meteor. Climatol., 50, 1571?1586. doi: http://dx.doi.org/10.1175/2011JAMC2672.1.
@@ -66,11 +67,13 @@ Letu, H., T. M. Nagao, T. Y. Nakajima, and Y. Matsumae, 2014: Method for validat
 Nakajima, T. Y., T. Tsuchiya, H. Ishida, and H. Shimoda, 2011: Cloud detection performance of spaceborne visible-to-infrared multispectral imagers. Applied Optics, 50, 2601-2616.
 
 (Cloud Retrieval Algorithm)
+
 Kawamoto, K., T. Nakajima, and T. Y. Nakajima, 2001: A Global Determination of Cloud Microphysics with AVHRR Remote Sensing, J. Clim., 14(9), 2054?2068, doi:10.1175/1520-0442(2001)014<2054:AGDOCM>2.0.CO;2.
 
 Nakajima, T. Y., and T. Nakajima, 1995: Wide-Area Determination of Cloud Microphysical Properties from NOAA AVHRR Measurements for FIRE and ASTEX Regions, J. Atmos. Sci., 52(23), 4043?4059, doi:10.1175/1520-0469(1995)052<4043:WADOCM>2.0.CO;2.
 
 (Scattering property database for nonspherical ice particles)
+
 Ishimoto, H., K. Masuda., Y. Mano, N. Orikasa, and A. Uchiyama, 2012a, Optical modeling of irregularly shaped ice particles in convective cirrus. In radiation processed in the atmosphere and ocean (IRS2012): Proceedings of the International Radiation Symposium (IRC/IAMAS) 1531, 184-187.
 
 Ishimoto, H., K. Masuda, Y. Mano, N. Orikasa, and A. Uchiyama, 2012b: Irregularly shaped ice aggregates in optical modeling of convectively generated ice clouds, J. Quant. Spectrosc. Radiat. Transfer, 113, 632?643.
