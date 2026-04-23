@@ -51,3 +51,34 @@ CPT = COT * 2/3 * ρ * r / LWC
 4. なんらかの理由によってP-Treeから衛星データを取得することができない場合、CloBEは雲底高度の推定値を出すことはできない。
 
 ## References
+
+Cloud propaty data that is used in the development of this tool is supplied by the P-Tree System, Japan Aerospace Exploration Agency (JAXA). The references of this service are below.
+
+本ツールの開発にて使用した雲特性データは、宇宙航空研究開発機構（JAXA）の分野横断型プロダクト提供サービス（P-Tree）より提供を受けた。このサービスについての参考文献を以下に挙げる。
+
+(Cloud Flag Algorithm)
+Ishida, H., and T. Y. Nakajima, 2009: Development of an unbiased cloud detection algorithm for a spaceborne multispectral imager, J. Geophys. Res., 114, D07206, doi:10.1029/2008JD010710.
+
+Ishida, H., T. Y. Nakajima, T. Yokota, N. Kikuchi, and H. Watanabe, 2011: Investigation of GOSAT TANSO-CAI cloud screening ability through an inter-satellite comparison, J. Appl. Meteor. Climatol., 50, 1571?1586. doi: http://dx.doi.org/10.1175/2011JAMC2672.1.
+
+Letu, H., T. M. Nagao, T. Y. Nakajima, and Y. Matsumae, 2014: Method for validating cloud mask obtained from satellite measurements using ground-based sky camera. Applied optics, 53(31), 7523-7533.
+
+Nakajima, T. Y., T. Tsuchiya, H. Ishida, and H. Shimoda, 2011: Cloud detection performance of spaceborne visible-to-infrared multispectral imagers. Applied Optics, 50, 2601-2616.
+
+(Cloud Retrieval Algorithm)
+Kawamoto, K., T. Nakajima, and T. Y. Nakajima, 2001: A Global Determination of Cloud Microphysics with AVHRR Remote Sensing, J. Clim., 14(9), 2054?2068, doi:10.1175/1520-0442(2001)014<2054:AGDOCM>2.0.CO;2.
+
+Nakajima, T. Y., and T. Nakajima, 1995: Wide-Area Determination of Cloud Microphysical Properties from NOAA AVHRR Measurements for FIRE and ASTEX Regions, J. Atmos. Sci., 52(23), 4043?4059, doi:10.1175/1520-0469(1995)052<4043:WADOCM>2.0.CO;2.
+
+(Scattering property database for nonspherical ice particles)
+Ishimoto, H., K. Masuda., Y. Mano, N. Orikasa, and A. Uchiyama, 2012a, Optical modeling of irregularly shaped ice particles in convective cirrus. In radiation processed in the atmosphere and ocean (IRS2012): Proceedings of the International Radiation Symposium (IRC/IAMAS) 1531, 184-187.
+
+Ishimoto, H., K. Masuda, Y. Mano, N. Orikasa, and A. Uchiyama, 2012b: Irregularly shaped ice aggregates in optical modeling of convectively generated ice clouds, J. Quant. Spectrosc. Radiat. Transfer, 113, 632?643.
+
+Masuda, K., H. Ishimoto, and Y. Mano, 2012: Efficient method of computing a geometric optics integral for light scattering, Meteorology and Geophysics ., 63, 15?19.
+
+Letu, H., T. Y. Nakajima, and T. N. Matsui, 2012: Development of an ice crystal scattering database for the global change observation mission/second generation global imager satellite mission: Investigating the refractive index grid system and potential retrieval error. Appl. Opt., 51, 6172-6178.
+
+Letu, H. H. Ishimoto, J. Riedi, T. Y. Nakajima, L. C.-Labonnote, A. J. Baran, T. M. Nagao, and M. Sekiguchi, 2016: Investigation of ice particle habits to be used for ice cloud remote sensing for the GCOM-C satellite mission. Atmos. Chem. Phys, 16(18), 12287-12303.
+
+Letu, H., T. M. Nagao, T. Y. Nakajima J. Riedi, H. Ishimoto, A. J. Baran, H. Shang, M. Sekiguchi, and M. Kikuchi: Ice cloud properties from Himawari-8/AHI next-generation geostationary satellite: Capability of the AHI to monitor the DC cloud generation process. IEEE Transactions on Geoscience and Remote Sensing, in revision.
