@@ -54,7 +54,7 @@ ___CPT = COT * 2/3 * ρ * r / LWC___
 
 ## References
 
-Cloud propaty data that is used in the development of this tool is supplied by the P-Tree System, Japan Aerospace Exploration Agency (JAXA). The references of this service are below.
+Cloud property data that is used in the development of this tool is supplied by the P-Tree System, Japan Aerospace Exploration Agency (JAXA). The references of this service are below.
 
 本ツールの開発にて使用する雲特性データは、宇宙航空研究開発機構（JAXA）の分野横断型プロダクト提供サービス（P-Tree）より提供を受けるものである。このサービスについての参考文献を以下に挙げる。
 
