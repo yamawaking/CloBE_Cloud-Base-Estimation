@@ -63,8 +63,8 @@ with st.sidebar:
     u_id = st.text_input("P-Tree User ID", value="")
     u_pw = st.text_input("Password", type="password")
     st.header("📍 解析座標")
-    t_lat = st.number_input("ターゲット緯度", value="", format="%.4f")
-    t_lon = st.number_input("ターゲット経度", value="", format="%.4f")
+    t_lat = st.number_input("ターゲット緯度", value=35.2139, format="%.4f")
+    t_lon = st.number_input("ターゲット経度", value=138.4339, format="%.4f")
     buf = st.slider("平均化範囲(度)", 0.01, 0.10, 0.02)
 if st.button("analyze the latest data"):
     if not u_id or not u_pw:
