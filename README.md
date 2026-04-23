@@ -1,4 +1,6 @@
 # CloBE
+https://clobeontheweb.streamlit.app
+
 CloBE- Cloud Base Estimation
 
 CloBE (クローブ)- 雲底高度推定ツール
@@ -38,10 +40,6 @@ LWC = ρ * ∫n(r) * 4/3πr^3 dr
 COT = 3/2 * LWC / ρ * r * CPT
 
 CPT = COT * 2/3 * ρ * r / LWC
-
-## Usage
-　使用方法は以下の通りである。
-1. https://clobeontheweb.streamlit.app
 
 ## Notes
 　使用にあたり注意すべき点がある。
