@@ -6,24 +6,38 @@ CloBE- Cloud Base Estimation
 CloBE (クローブ)- 雲底高度推定ツール
 
 ## Overview
-　**CloBE**は、宇宙航空研究開発機構（JAXA）が提供する分野横断型プロダクト提供システム（P-Tree）を用いて、気象衛星ひまわりから得られた日本周辺の雲についての雲特性データ（輝度温度、雲頂高度、雲粒有効半径、光学的厚さ、雲形等）を元に、指定された座標周辺の上空にある雲の雲底高度を、計算により推定することを目指すpythonツールである。
+    **CloBE** is a python tool to estimate heights of clouds around the designated location by calculations based on the cloud property data from P-Tree system offered by JAXA.
 
-## Logic
+　**CloBE**は、宇宙航空研究開発機構（JAXA）が提供する分野横断型プロダクト提供システム（P-Tree）を用いて、気象衛星ひまわりから得られた雲についての雲特性データ（輝度温度、雲頂高度、雲粒有効半径、光学的厚さ、雲形等）を元に、指定された座標周辺の上空にある雲の雲底高度を、計算により推定することを目指すpythonツールである。
+
+## Logics
+    The logics CloBE uses to estimate heights of clouds are as below.
+
 　CloBEが用いる雲底高度推定のロジックは以下の通りである。
+
+    CloBE calculates the approximation of the cloud base height by subtracting the physical thickness estimated based on the effictive Radius of the particle, optical thickness, liquid water content guessed by the cloudtype from the cloud top height about the clouds around the designated location.
 
 　指定された座標周辺の雲について、その物理的厚さを、雲粒有効半径と光学的厚さ、雲形から推測した雲水混合比から推定し、雲頂高度からこれを差し引くことで、当該雲の雲底高度を近似する。
 
-　気象衛星ひまわりの雲特性データから得られる雲の光学的厚さ（COT）と、CloBEが推定する雲の物理的厚さ（CPT）の関係は、以下のとおりである。なおzは鉛直方向の軸であり、βextは消散係数を示す。
+    The relationship between Cloud Optical Thickness (COT) and the cloud physical thickness is as below. z indicates the vertical axis and the βext does the extinction coefficient here.
+
+　雲の光学的厚さ（COT）と雲の物理的厚さ（CPT）の関係は、以下のとおりである。なおzは鉛直方向の軸であり、βextは消散係数を示す。
 
 ### _COT = ∫[zbase→ztop] * βext dz ≒ βext * CPT_
 
-　このとき、消散係数βextは、雲を構成する粒子の断面積とその分布から以下の左辺のように示すことができる。なお、rは粒子の半径を、Qextは消散効率をそれぞれ示す。Qextは2と近似することができるため、右辺のように表すことができる。
+    βext can be expressed as the left side of the equation below by the perticle cross section and distribution of the cloud. r indicates the radius of the particle and Qext does extinction efficiency. Qext can be approximated as 2 so βext can be expressed as the right side finally.
+
+　このとき、βextは、雲を構成する粒子の断面積とその分布から以下の左辺のように示すことができる。なお、rは粒子の半径を、Qextは消散効率をそれぞれ示す。Qextは2と近似することができるため、右辺のように表すことができる。
 
 ### _βext = ∫n(r) * Qext * πr^2 dr ≒ ∫n(r) * 2π_
+
+    However, the sistribution of the cloud particle cannot be known from the sattelite data. So CloBE uses the Liquid Water Content (LWC) for the calculation.LWC can be expressed as below by the volume, distribution, and density (ρ) of the cloud particle.
 
 　しかしながら、粒子の分布は気象衛星からの情報からは知りえない。そこで、CloBEは雲水混合比（LWC）を計算に用いる。LWCは、雲を構成する粒子の体積とその分布および粒子の密度（ρ）から、以下のように示すことができる。
 
 ### _LWC = ρ * ∫n(r) * 4/3πr^3 dr_
+
+    In calculating βext, CloBE subtracts LWC from it to exclude n that is an unknown variable.
 
 　βextを求めるにあたり、未知数であるnを計算式から取り除くため、これをLWCで除する。
 
@@ -31,9 +45,13 @@ CloBE (クローブ)- 雲底高度推定ツール
 
 ### _= 2 / 4/3 * r *ρ = 3 / 2 * r * ρ_
 
+    Based on the above, we can calculate βext as below.
+
 　以上により、βwxtは以下のように求めることができる。
 
 ### _βext = 3/2 * LWC / ρ * r_
+
+    By substituting this into the equation for calculating COT, the formula for calculating CPT can be made. CloBE uses the effective Radius of the cloud particle for r, estimates ρ based on the cloud top temperature, and does LWC by the cloudtype to calculate CBT. The effective Radius of the cloud particle, cloud top temperature, and cloudtype are contained in the cloud property data of Himawari.
 
 　これをCOTを求める式に代入すると、以下のようにしてCPTを求める式を作ることができる。なお、CloBEは、rとして雲粒有効半径を用い、ρを雲頂の輝度温度に基づいて、またLWCを雲形に基づいて、それぞれ推定することで、雲底高度を近似する。雲粒有効半径、輝度温度、および雲形は、気象衛星ひまわりから得られる雲特性データに含まれる。
 
