@@ -67,25 +67,33 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 st.title("☁️ CloBE - Cloud Base Estimation")
+if "lat" not in st.session_state:
+    st.session_state.lat = 35.2139
+if "lon" not in st.session_state:
+    st.session_state.lon = 138.4339
 with st.sidebar:
     st.header("🔑 認証情報")
     u_id = st.text_input("P-Tree UID", value="")
     u_pw = st.text_input("PW", type="password")
 st.subheader("📍 解析座標")
-m = folium.Map(location=[35.0, 137.0], zoom_start=5)
-output = st_folium(m, width=400, height=400)
-clicked_lat = 35.2139
-clicked_lon = 138.4339
-if isinstance(output, dict) and output.get("last_clicked"):
+m = folium.Map(location=[st.session_state.lat, st.session_state.lon], zoom_start=5)
+folium.Marker(
+    [st.session_state.lat, st.session_state.lon],
+    icon=folium.Icon(color="red", icon="info-sign")
+).add_to(m)
+output = st_folium(m, width=400, height=400, key="clobe_map")
+if output is not None and output.get("last_clicked"):
     last_clicked = output["last_clicked"]
-    if isinstance(last_clicked, dict):
-        clicked_lat = last_clicked.get("lat", clicked_lat)
-        clicked_lon = last_clicked.get("lng", clicked_lon)
-    elif isinstance(last_clicked, (list, tuple)):
-        clicked_lat = last_clicked[0]
-        clicked_lon = last_clicked[1]
-t_lat = st.number_input("lat", value=clicked_lat, format="%.4f")
-t_lon = st.number_input("lon", value=clicked_lon, format="%.4f")
+    new_lat = last_clicked.get("lat")
+    new_lon = last_clicked.get("lng")
+    if new_lat != st.session_state.lat or new_lon != st.session_state.lon:
+        st.session_state.lat = new_lat
+        st.session_state.lon = new_lon
+        st.rerun()
+t_lat = st.number_input("lat", value=float(st.session_state.lat), format="%.4f")
+t_lon = st.number_input("lon", value=float(st.session_state.lon), format="%.4f")
+st.session_state.lat = t_lat
+st.session_state.lon = t_lon
 buf = st.slider("平均化範囲(度)", 0.01, 0.10, 0.02)
 if st.button("analyze the latest data"):
     if not u_id or not u_pw:
