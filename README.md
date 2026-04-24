@@ -23,41 +23,41 @@ The relationship between Cloud Optical Thickness (COT) and the cloud physical th
 
 　雲の光学的厚さ（COT）と雲の物理的厚さ（CPT）の関係は、以下のとおりである。なおzは鉛直方向の軸であり、βextは消散係数を示す。
 
-    ### _COT = ∫[zbase→ztop] * βext dz ≒ βext * CPT_
+### _COT = ∫[zbase→ztop] * βext dz ≒ βext * CPT_
 
 βext can be expressed as the left side of the equation below by the perticle cross section and distribution of the cloud. r indicates the radius of the particle and Qext does extinction efficiency. Qext can be approximated as 2 so βext can be expressed as the right side finally.
 
 　このとき、βextは、雲を構成する粒子の断面積とその分布から以下の左辺のように示すことができる。なお、rは粒子の半径を、Qextは消散効率をそれぞれ示す。Qextは2と近似することができるため、右辺のように表すことができる。
 
-    ### _βext = ∫n(r) * Qext * πr^2 dr ≒ ∫n(r) * 2π_
+### _βext = ∫n(r) * Qext * πr^2 dr ≒ ∫n(r) * 2π_
 
 However, the sistribution of the cloud particle cannot be known from the sattelite data. So CloBE uses the Liquid Water Content (LWC) for the calculation.LWC can be expressed as below by the volume, distribution, and density (ρ) of the cloud particle.
 
 　しかしながら、粒子の分布は気象衛星からの情報からは知りえない。そこで、CloBEは雲水混合比（LWC）を計算に用いる。LWCは、雲を構成する粒子の体積とその分布および粒子の密度（ρ）から、以下のように示すことができる。
 
-    ### _LWC = ρ * ∫n(r) * 4/3πr^3 dr_
+### _LWC = ρ * ∫n(r) * 4/3πr^3 dr_
 
 In calculating βext, CloBE subtracts LWC from it to exclude n that is an unknown variable.
 
 　βextを求めるにあたり、未知数であるnを計算式から取り除くため、これをLWCで除する。
 
-    ### _βext / LWC = n * 2πr^2 / n * 4/3πr^3 * ρ_
+### _βext / LWC = n * 2πr^2 / n * 4/3πr^3 * ρ_
 
-    ### _= 2 / 4/3 * r *ρ = 3 / 2 * r * ρ_
+### _= 2 / 4/3 * r *ρ = 3 / 2 * r * ρ_
 
 Based on the above, we can calculate βext as below.
 
 　以上により、βwxtは以下のように求めることができる。
 
-    ### _βext = 3/2 * LWC / ρ * r_
+### _βext = 3/2 * LWC / ρ * r_
 
 By substituting this into the equation for calculating COT, the formula for calculating CPT can be made. CloBE uses the effective Radius of the cloud particle for r, estimates ρ based on the cloud top temperature, and does LWC by the cloudtype to calculate CBT. The effective Radius of the cloud particle, cloud top temperature, and cloudtype are contained in the cloud property data of Himawari.
 
 　これをCOTを求める式に代入すると、以下のようにしてCPTを求める式を作ることができる。なお、CloBEは、rとして雲粒有効半径を用い、ρを雲頂の輝度温度に基づいて、またLWCを雲形に基づいて、それぞれ推定することで、雲底高度を近似する。雲粒有効半径、輝度温度、および雲形は、気象衛星ひまわりから得られる雲特性データに含まれる。
 
-    ### _COT = 3/2 * LWC / ρ * r * CPT_
+### _COT = 3/2 * LWC / ρ * r * CPT_
 
-    ### _CPT = COT * 2/3 * ρ * r / LWC_
+### _CPT = COT * 2/3 * ρ * r / LWC_
 
 ## Verification
 　雲底高度推定の妥当性向上のため、日本国内の飛行場における気象観測員である開発者（Kosei Yamawaki）は、その業務の傍ら、本プログラムについて精度の検証をおこなっている。職場には直上の雲のほぼ正確な雲底高度を計測するシーロメータがあるため、検証にはこれを用いている。検証により系統的誤差が認められた場合、それに応じて随時、プログラムの改善をおこなう。
