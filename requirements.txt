@@ -3,3 +3,4 @@ xarray
 netCDF4
 scipy
 numpy
+folium
