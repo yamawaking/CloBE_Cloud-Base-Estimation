@@ -8,7 +8,7 @@ from scipy import stats
 import warnings
 warnings.filterwarnings('ignore')
 def get_dynamic_lwc(cltype):
-    lwc_map = {1: 0.05, 2: 0.05, 3: 0.2, 4: 0.2, 5: 0.4, 6: 0.4}
+    lwc_map = {1: 0.05, 2: 0.05, 3: 0.25, 4: 0.25, 5: 0.4, 6: 0.4}
     return lwc_map.get(cltype, 0.3)
 def calculate_clobe_logic(tbb_k, cth_ft, cot, re_um, cltype):
     lwc = get_dynamic_lwc(cltype)
@@ -20,6 +20,8 @@ def calculate_clobe_logic(tbb_k, cth_ft, cot, re_um, cltype):
     else:
         ratio = (273.15 - tbb_k) / 40.0
         rho = rho_w - (rho_w - rho_i) * ratio
+    if cth_ft <= 0:
+        return 0
     thickness_ft = (cot * (2/3) * (re_um * 1e-6) * (rho / lwc)) * 3.28084
     return max(0, cth_ft - thickness_ft)
 def get_latest_file_from_ptree(user, pw):
@@ -84,23 +86,31 @@ if st.button("analyze the latest data"):
                     if not np.any(valid_idx):
                         st.error(f"ファイルは取得できましたが、指定座標({t_lat}, {t_lon})に雲データがありません。快晴の可能性があります。")
                     else:
-                        res = {
-                            'ctt': float(np.nanmean(area['CLTT'].values)),
-                            'cth_ft': float(np.nanmean(area['CLTH'].values)) * 3.28084 * 1000,
-                            'cot': float(np.nanmean(area['CLOT'].values)),
-                            'cer': float(np.nanmean(area['CLER_23'].values)),
-                            'type': int(stats.mode(cltype_raw[valid_idx], keepdims=True).mode[0])
-                        }
-                        est_cbh = calculate_clobe_logic(res['ctt'], res['cth_ft'], res['cot'], res['cer'], res['type'])
-                        st.success(f"succeeded: {filename}")
-                        m1, m2, m3 = st.columns(3)
-                        m1.metric("推定雲底高度 (CBH)", f"{est_cbh:,.0f} ft")
-                        m2.metric("雲頂高度 (CTH)", f"{res['cth_ft']:,.0f} ft")
-                        m3.metric("雲頂温度", f"{res['ctt']:.1f} K")
-                        with st.expander("詳細な観測値"):
-                            st.write(f"**判定雲形:** {res['type']}")
-                            st.write(f"**光学的厚さ (COT):** {res['cot']:.2f}")
-                            st.write(f"**実効粒子半径 (Re):** {res['cer']:.2f} μm")
+                        cth_raw = area["CLTH"].values.flatten()
+                        cot_raw = area['CLOT'].values.flatten()
+                        cer_raw = area['CLER_23'].values.flatten()
+                        valid_cloud_mask = (cth_raw > 0) & (cot_raw > 0) & (cer_raw > 0) & (~np.isnan(cth_raw))
+                        if not np.any(valid_cloud_mask):
+                            st.error("Cannot found a cloud that has valid height in buffer")
+                        else:
+                            res = {
+                                'ctt': float(np.nanmean(area['CLTT'].values.flatten()[valid_cloud_mask])),
+                                'cth_ft': float(np.nanmean(cth_raw[valid_cloud_mask])) * 3.28084 * 1000,
+                                'cot': float(np.nanmean(cot_raw[valid_cloud_mask])),
+                                'cer': float(np.nanmean(cer_raw[valid_cloud_mask])),
+                                'type': int(stats.mode(cltype_raw[valid_cloud_mask], keepdims=True).mode[0])
+                            }
+                            est_cbh = calculate_clobe_logic(res['ctt'], res['cth_ft'], res['cot'], res['cer'], res['type'])
+                            est_cbh = min(res['cth_ft'], max(0, est_cbh))
+                            st.success(f"succeeded: {filename}")
+                            m1, m2, m3 = st.columns(3)
+                            m1.metric("推定雲底高度 (CBH)", f"{est_cbh:,.0f} ft")
+                            m2.metric("雲頂高度 (CTH)", f"{res['cth_ft']:,.0f} ft")
+                            m3.metric("雲頂温度", f"{res['ctt']:.1f} K")
+                            with st.expander("詳細な観測値"):
+                                st.write(f"**判定雲形:** {res['type']}")
+                                st.write(f"**光学的厚さ (COT):** {res['cot']:.2f}")
+                                st.write(f"**実効粒子半径 (Re):** {res['cer']:.2f} μm")
                     ds.close()
                 except Exception as e:
                     st.error(f"analyze error: {e}")
