@@ -5,6 +5,8 @@ import xarray as xr
 import numpy as np
 from datetime import datetime, timedelta, timezone
 from scipy import stats
+import folium
+from streamlit_folium import st_folium
 import warnings
 warnings.filterwarnings('ignore')
 def get_dynamic_lwc(cltype):
@@ -58,16 +60,33 @@ def get_latest_file_from_ptree(user, pw):
             continue
     ftp.quit()
     return None
-st.set_page_config(page_title="CloBE Estimator", layout="wide")
-st.title("☁️ CloBE - Cloud Base Estimation System")
+st.set_page_config(
+    page_title="CloBE",
+    page_icon="☁",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+st.title("☁️ CloBE - Cloud Base Estimation")
 with st.sidebar:
     st.header("🔑 認証情報")
-    u_id = st.text_input("P-Tree User ID", value="")
-    u_pw = st.text_input("Password", type="password")
-    st.header("📍 解析座標")
-    t_lat = st.number_input("ターゲット緯度", value=35.2139, format="%.4f")
-    t_lon = st.number_input("ターゲット経度", value=138.4339, format="%.4f")
-    buf = st.slider("平均化範囲(度)", 0.01, 0.10, 0.02)
+    u_id = st.text_input("P-Tree UID", value="")
+    u_pw = st.text_input("PW", type="password")
+st.subheader("📍 解析座標")
+m = folium.Map(location=[35.0, 137.0], zoom_start=5)
+output = st_folium(m, width=400, height=400)
+clicked_lat = 35.2139
+clicked_lon = 138.4339
+if isinstance(output, dict) and output.get("last_clicked"):
+    last_clicked = output["last_clicked"]
+    if isinstance(last_clicked, dict):
+        clicked_lat = last_clicked.get("lat", clicked_lat)
+        clicked_lon = last_clicked.get("lng", clicked_lon)
+    elif isinstance(last_clicked, (list, tuple)):
+        clicked_lat = last_clicked[0]
+        clicked_lon = last_clicked[1]
+t_lat = st.number_input("lat", value=clicked_lat, format="%.4f")
+t_lon = st.number_input("lon", value=clicked_lon, format="%.4f")
+buf = st.slider("平均化範囲(度)", 0.01, 0.10, 0.02)
 if st.button("analyze the latest data"):
     if not u_id or not u_pw:
         st.warning("enter your UID and PW")
