@@ -60,6 +60,8 @@ CloBE (クローブ)- 雲底高度推定ツール
 ### _CPT = COT * 2/3 * ρ * r / LWC_
 
 ## Verification
+-To increase the validity of CloBE, the developer of this program (Kosei Yamawaki), who works as a aviation weather observer of an aerodrome in Japan, verifies its accuracy.
+
 　雲底高度推定の妥当性向上のため、日本国内の飛行場における気象観測員である開発者（Kosei Yamawaki）は、その業務の傍ら、本プログラムについて精度の検証をおこなっている。職場には直上の雲のほぼ正確な雲底高度を計測するシーロメータがあるため、検証にはこれを用いている。検証により系統的誤差が認められた場合、それに応じて随時、プログラムの改善をおこなう。
 
 ## Notes
